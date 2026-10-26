@@ -21,8 +21,12 @@ app.post("/xyz", (req, res) => {
   console.log("xyz! post");
 });
 
+// *******************ROUTE parameters*****************
 
-app.get("/user",(req,res)=>{
+
+app.get("/user/:userid",(req,res)=>{
+  console.log("......",req.params);
+  // console.log(req.query);
   res.send({firstNmae:"John",lastName:"Doe"},{firstNmae:"nam",lastName:"Doe"},{firstNmae:"John",lastName:"Doe"});
 
 })
@@ -35,6 +39,15 @@ app.delete("/user",(req,res)=>{
 });
 
 
+
+// *******************QUERY PARAMETERS*****************
+
+app.get("/search", (req, res) => {
+  console.log(req.query.keyword); 
+  console.log(req.query.sort);    
+  
+  res.send(`Searching for: ${req.query.keyword}, Sorted by: ${req.query.sort}`);
+});
 app.listen(3000, () => {
   console.log(`server is running on port 3000`);
 });
