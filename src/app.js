@@ -6,16 +6,29 @@ const connectDb = require("./config/database");
 
 const User = require("./models/user");
 
+app.use(express.json());
+
 app.post("/signup", async (req, res) => {
-  const user = new User({
-    firstName: "John",
-    lastName: "Doe",
-    email: "John@example.com",
-    password: "password123",
-  });
-  await user.save();
-  
-  res.send("User created successfully");
+  console.log("🔥 Signup route was hit!");
+  console.log(req.body,"-----------------");
+
+  const user = new User(req.body);
+  // const user = new User({
+  //   firstName: "John",
+  //   lastName: "Doe",
+  //   email: "John@example.com",
+  //   password: "password123",
+  // });
+  //
+
+  try {
+    await user.save();
+    console.log("User saved successfully:", user);
+    res.send("User added successfully");
+  } catch (error) {
+    console.error("Error saving user:", error);
+    res.status(500).send("Error saving user");
+  }
 });
 
 // *******************QUERY PARAMETERS*****************
