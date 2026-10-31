@@ -56,7 +56,7 @@ app.get("/user", async (req, res) => {
   try {
     const user = await User.findOne({ email: userEmail });
 
-    if (!user) {
+    if (user.length === 0) {
       return res.status(404).send("User not found");
     }
 
@@ -68,6 +68,15 @@ app.get("/user", async (req, res) => {
 });
 
 
+app.get("/users", async (req, res) => {
+  try {
+    const user = await User.find({});
+    res.send(user);
+  } catch (err) {
+    console.error("Error fetching feed:", err);
+    res.status(500).send("Error fetching feed");
+  }
+});
 connectDb()
   .then(() => {
     console.log("Database connected successfully");
