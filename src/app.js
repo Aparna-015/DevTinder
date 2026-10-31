@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.post("/signup", async (req, res) => {
   console.log("🔥 Signup route was hit!");
-  console.log(req.body,"-----------------");
+  console.log(req.body, "-----------------");
 
   const user = new User(req.body);
   // const user = new User({
@@ -31,6 +31,16 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+// app.get("/users", async (req, res) => {
+//   const useremail = req.query.email;
+//   try {
+//     const user = await User.findOne({ email: useremail });
+//     res.send(user);
+//   } catch (err) {
+//     console.error("Error fetching user:", err);
+//     res.status(500).send("Error fetching user");
+//   }
+// });
 // *******************QUERY PARAMETERS*****************
 
 // app.get("/search", (req, res) => {
@@ -39,6 +49,24 @@ app.post("/signup", async (req, res) => {
 
 //   res.send(`Searching for: ${req.query.keyword}, Sorted by: ${req.query.sort}`);
 // });
+
+app.get("/user", async (req, res) => {
+  const userEmail = req.body.email;
+
+  try {
+    const user = await User.findOne({ email: userEmail });
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    res.send(user);
+  } catch (err) {
+    console.error("Error fetching user:", err);
+    res.status(500).send("Error fetching user");
+  }
+});
+
 
 connectDb()
   .then(() => {
