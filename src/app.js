@@ -92,6 +92,19 @@ app.delete("/users", async (req, res) => {
 
 
 
+app.patch("/users",async (req, res) => {
+  const userid = req.body.userid;
+  const data = req.body;
+
+  try {
+    const user = await User.findByIdAndUpdate(userid, data);
+    console.log(user, "-----------------");
+    res.send("user updated successfully");
+  } catch (err) {
+    res.status(500).send("Error updating user");
+    console.error("Error updating user:", err);
+  }
+});
 
 connectDb()
   .then(() => {
