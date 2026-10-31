@@ -67,16 +67,32 @@ app.get("/user", async (req, res) => {
   }
 });
 
-
 app.get("/users", async (req, res) => {
   try {
     const user = await User.find({});
+    console.log(user, "-----------------");
     res.send(user);
   } catch (err) {
     console.error("Error fetching feed:", err);
     res.status(500).send("Error fetching feed");
   }
 });
+
+app.delete("/users", async (req, res) => {
+  const userid = req.body.userid;
+
+  try {
+    const user = await User.findByIdAndDelete(userid);
+    res.send("user deleted successfully");
+  } catch (err) {
+    res.status(500).send("Error deleting user");
+    console.error("Error deleting user:", err);
+  }
+});
+
+
+
+
 connectDb()
   .then(() => {
     console.log("Database connected successfully");
